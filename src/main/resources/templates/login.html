@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/cafe.css">
+    <title>로그인 화면</title>
+    <script>
+        // 회원가입 버튼 클릭 시 페이지 이동
+        function goToUserAddPage() {
+            window.location.href = "/user-add";
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1 style="height: 100px;">카페 여석 확인 앱</h1>
+
+    <form method="post" action="/signin">
+        <input type="input" name="id" placeholder="아이디를 입력하세요">
+        <input type="password" name="passwd" placeholder="비밀번호를 입력하세요">
+        <!--html 과 dto 의 변수명 동일하게 설정-->
+        <div class="btn-container">
+            <input type="submit" value="로그인">
+            <input type="button" value="회원가입" onclick="goToUserAddPage()">
+        </div>
+    </form>
+</div>
+</body>
+</html>

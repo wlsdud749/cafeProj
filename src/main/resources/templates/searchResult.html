@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>검색 결과</title>
+</head>
+<style>
+  /* 검색 결과 테이블 스타일 */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  /* 검색 결과 테이블 내용 스타일 */
+  td {
+    font-size: 14px;
+  }
+
+  /* 검색 결과 테이블 제목 스타일 */
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  /* 검색 결과 테이블 레이아웃 및 여백 스타일 */
+  body {
+    padding: 20px;
+  }
+
+
+</style>
+<body>
+<h1 style="text-align: center">검색 결과</h1>
+<table>
+  <tr>
+    <th>이름</th>
+    <th>전화번호</th>
+    <th>주소</th>
+    <th>도로명주소</th>
+    <th>x</th>
+    <th>y</th>
+    <th>선택</th>
+
+    <!-- 필요한 다른 컬럼들도 추가 -->
+  </tr>
+  <tr th:each="result : ${searchResults}">
+    <td th:text="${result.name}"></td>
+    <td th:text="${result.number}"></td>
+    <td th:text="${result.addr}"></td>
+    <td th:text="${result.addr2}"></td>
+    <td th:text="${result.xValue}"></td>
+    <td th:text="${result.yValue}"></td>
+    <!-- 검색 결과의 다른 속성들도 출력 -->
+    <td>
+      <form action="/registercafe" method="post">
+        <input type="hidden" name="name" th:value="${result.name}">
+        <input type="hidden" name="number" th:value="${result.number}">
+        <input type="hidden" name="addr" th:value="${result.addr}">
+        <input type="hidden" name="addr2" th:value="${result.addr2}">
+        <input type="hidden" name="xValue" th:value="${result.xValue}">
+        <input type="hidden" name="yValue" th:value="${result.yValue}">
+        <!-- 기타 필요한 input 필드들을 추가 -->
+        <input type="submit" value="추가">
+      </form>
+    </td>
+  </tr>
+</table>
+</body>
+
+</html>

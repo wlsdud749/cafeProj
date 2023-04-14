@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>카페 검색</title>
+  <style>
+    /* 화면 중앙으로 오도록 스타일 적용 */
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 16px; /* 입력폼과 버튼 사이 간격 조정 */
+    }
+    .search {
+      height: auto;
+      width: auto;
+      border: rgb(96, 86, 86) solid 3px;
+      padding: 16px; /* 내부 패딩 추가 */
+      text-align: center; /* 내부 텍스트 가운데 정렬 */
+    }
+
+    /* 내부 텍스트의 크기에 따라 크기를 조절하는 스타일 */
+    .search h2, .search h3 {
+      font-size: inherit;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <form method="post" action="/searchCafe">
+    <h1 style="height: 100px;">카페 검색</h1>
+    <div class="search">
+      <h2>원하시는 카페의 이름을 입력해주세요.</h2>
+      <h3>정확한 정보가 필요합니다 . ex) 스타벅스 대구</h3>
+      <div class="search">
+        <input type="text" id="searchInput" name="query" placeholder="카페 이름을 입력하세요">
+
+        <input type="submit" value="검색">
+  </form>
+
+</div>
+</body>
+</html>

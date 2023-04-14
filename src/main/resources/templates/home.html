@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="/css/cafe.css" type="text">
+    <style>
+        /* 컨테이너를 화면 중앙에 정렬 */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* 버튼들을 가운데로 정렬 */
+        button {
+            margin: 5px; /* 버튼 간격 조정 */
+        }
+
+        /* Prev, HOME, Next 버튼들을 가운데로 정렬 */
+        .container > div:first-child {
+            margin-top: 10px; /* h1 요소와의 간격 조정 */
+        }
+
+        /* 리스트 테이블 스타일링 */
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* 체크박스 스타일링 */
+        .checkbox {
+            width: 20px;
+        }
+    </style>
+
+    <script>
+        // 회원가입 버튼 클릭 시 페이지 이동
+        function goToUserAddPage() {
+            window.location.href = "/search2";
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1>
+<!--        이게 널이라는데..-->
+        <span th:text="|안녕하세요 ${userinfo.id}님|"></span>
+
+    </h1>
+
+
+    <table>
+        <tr>
+            <th>No.</th>
+            <th>이름</th>
+            <th>장소</th>
+            <th>최근 방문 일자</th>
+            <th>선택</th>
+        </tr>
+        <tr th:each="cafe : ${cafeinfo}">
+            <td>1</td>
+            <td><span th:text="${cafe.user.name}"></span></td>
+            <td><span th:text="${cafe.name}"></span></td>
+            <td>2023-04-09</td>
+            <td><input type="checkbox" class="checkbox"></td>
+        </tr>
+
+        <tr>
+            <td>2</td>
+            <td>이순신</td>
+            <td>명량</td>
+            <td>2023-04-09</td>
+            <td><input type="checkbox" class="checkbox"></td>
+        </tr>
+
+        <tr>
+            <td>3</td>
+            <td>김철수</td>
+            <td>안랩</td>
+            <td>2023-04-08</td>
+            <td><input type="checkbox" class="checkbox"></td>
+        </tr>
+    </table>
+    <div>
+        <input type="button" value="추가" onclick="goToUserAddPage()">
+        <button type="button">삭제</button>
+    </div>
+    <div>
+        <button>Prev</button>
+        <button>HOME</button>
+        <button>Next</button>
+    </div>
+</div>
+</body>
+</html>
