@@ -2,7 +2,6 @@ package com.example.cafe.service;
 
 
 import com.example.cafe.dto.CafeResDto;
-import com.example.cafe.dto.UserDto;
 import com.example.cafe.entity.Cafe;
 import com.example.cafe.repository.CafeRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class CafeService {
     private final CafeRepository cafeRepository;
 
-    public CafeResDto registerCafe(CafeResDto cafeResDto, UserDto userDto) {
+    public CafeResDto registerCafe(CafeResDto cafeResDto) {
         //Cafe cafe = null;
         //if(cafeResDto.getIdx() == null) {
 
@@ -24,7 +23,6 @@ public class CafeService {
                 .number(cafeResDto.getNumber())
                 .x(cafeResDto.getXValue())
                 .y(cafeResDto.getYValue())
-                .user(userDto.getIdx())
                 .build();
 
         // 업데이트 로직이라고 함.
@@ -61,5 +59,9 @@ public class CafeService {
                 .number(cafeResDtoDto.getNumber())
                 .build();
         return dto;
+    }
+
+    public Cafe saveCafe(Cafe cafe) {
+        return cafeRepository.save(cafe);
     }
 }
