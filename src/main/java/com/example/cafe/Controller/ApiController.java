@@ -38,14 +38,14 @@ public class ApiController {
     }
 
     // 등록은 나중에 하고,
-//    @PostMapping(value="/cafeRegister")
-//    public ResponseEntity registerCafe (@RequestBody CafeResDto cafeResDto) {
-//        log.info("save to cafe = {}",cafeResDto);
-//        var dto = cafeService.registerCafe(cafeResDto);
-//        if(dto.getIdx() != null) {
-//            return ResponseEntity.ok(dto);
-//        }
-//        return ResponseEntity.status(HttpStatus.CONFLICT).body(dto);
-//    }
+    @PostMapping(value="/cafeRegister")
+    public ResponseEntity registerCafe (@RequestBody CafeResDto cafeResDto) {
+        log.info("save to cafe = {}",cafeResDto);
+        var dto = cafeService.registerCafe(cafeResDto);
+        if(dto.getIdx() != null) {
+            return ResponseEntity.ok(dto);
+        }
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(dto);
+    }
 
 }

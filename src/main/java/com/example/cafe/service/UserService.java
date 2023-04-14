@@ -62,7 +62,7 @@ public class UserService {
 
     }
 
-    private User dtoToEntity(UserDto userDto) {
+    User dtoToEntity(UserDto userDto) {
         var dto = User.builder()
                 .idx(userDto.getIdx())
                 // idx 도 꼭 dto 에 추가해야한다. 안그러면 받아오질 못함.

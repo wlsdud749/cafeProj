@@ -32,6 +32,10 @@ public class Cafe {
     private String y;
     private int table_cnt;
 
+//    public void setUserIdx(Long userIdx) {
+//        this.user_idx=userIdx;
+//    }
+
 
 //    private LocalDateTime open_form;
 //    private LocalDateTime open_to;
