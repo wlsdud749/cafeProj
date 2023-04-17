@@ -60,42 +60,28 @@
 <div class="container">
     <h1>
 <!--        이게 널이라는데..-->
-        <span th:text="|안녕하세요 ${userinfo.id}님|"></span>
+        <span th:text="|안녕하세요 ${userinfo.nick}님|"></span>
 
     </h1>
 
+<!--        <tr th:each="cafe : ${cafeinfo}">-->
+<!--            <td>1</td>-->
+<!--            <td><span th:text="${cafe.user.name}"></span></td>-->
+<!--            <td><span th:text="${cafe.name}"></span></td>-->
 
     <table>
         <tr>
-            <th>No.</th>
-            <th>이름</th>
             <th>장소</th>
-            <th>최근 방문 일자</th>
-            <th>선택</th>
+            <th>전화번호</th>
+            <th>주소</th>
+            <th>도로명주소</th>
+            <!-- 필요한 다른 컬럼들도 추가 -->
         </tr>
         <tr th:each="cafe : ${cafeinfo}">
-            <td>1</td>
-            <td><span th:text="${cafe.user.name}"></span></td>
-            <td><span th:text="${cafe.name}"></span></td>
-            <td>2023-04-09</td>
-            <td><input type="checkbox" class="checkbox"></td>
-        </tr>
-
-        <tr>
-            <td>2</td>
-            <td>이순신</td>
-            <td>명량</td>
-            <td>2023-04-09</td>
-            <td><input type="checkbox" class="checkbox"></td>
-        </tr>
-
-        <tr>
-            <td>3</td>
-            <td>김철수</td>
-            <td>안랩</td>
-            <td>2023-04-08</td>
-            <td><input type="checkbox" class="checkbox"></td>
-        </tr>
+            <td th:text="${cafe.name}"></td>
+            <td th:text="${cafe.number}"></td>
+            <td th:text="${cafe.addr}"></td>
+            <td th:text="${cafe.addr2}"></td>
     </table>
     <div>
         <input type="button" value="추가" onclick="goToUserAddPage()">

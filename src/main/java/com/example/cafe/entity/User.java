@@ -28,6 +28,16 @@ public class User {
     private String addr;
     private int owner;
 
+    @ToString.Exclude
+    @OneToMany(mappedBy = "user")
+    private List<Cafe> cafes = new ArrayList<>(); // Cafe 엔티티와의 OneToMany 관계를 정의
+
+    // 편의 메서드
+    public void addCafe(Cafe cafe) {
+        cafes.add(cafe);
+
+    }
+
 
 
 }

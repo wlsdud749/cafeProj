@@ -28,6 +28,7 @@ public class CafeResDto {
         private String xValue;
         @JsonProperty(value = "y")
         private String yValue;
+        private Long user_idx;
         //private LocalDateTime open_form;
         //private LocalDateTime open_to;
     }

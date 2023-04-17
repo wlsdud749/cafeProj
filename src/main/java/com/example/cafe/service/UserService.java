@@ -20,15 +20,18 @@ public class UserService {
     private final UserRepository userRepository;
     private final CafeRepository cafeRepository;
 
+
+    @Transactional
     public UserDto findByIdAndPasswd(UserDto userDto) {
         // 받아옴
 //        System.out.println(userDto.getId() + "ㅁㅁㅁㅁㅁ" + userDto.getPasswd());
         Optional<User> user = userRepository.findByIdAndPasswd(userDto.getId(), userDto.getPasswd());
+        // ㅅ ㅂ 갑자기 이거도 null 값
         System.out.println("findByIdAndPasswd에서 가져온 유저 정보. " + user.get());
         // 정보가 없다고 한다 ..
         // idx , userId, userPw 가 널값이다.. 왜지?
         if (user.isPresent()) {
-            System.out.println("user 정보(findByIdAndPasswd):" + user.get());
+//            System.out.println("user 정보(findByIdAndPasswd):" + user.get());
             return entityToDto(userRepository.findByIdAndPasswd(userDto.getId(), userDto.getPasswd()).get());
         }
         return null;
@@ -42,7 +45,7 @@ public class UserService {
 //        var list = userRepository.findByIdx(idx);
 //        그럼, idx 에 따른 정보를 가져오려면?
         // idx = user_idx 가 같은 것.
-
+        // 게시판에 보여 질 때 사용
         System.out.println("이게 뭘 의미? (리스트 뽑아온 것. user 테이블의 idx 와 cafe 테이블에 있는 user_idx 값과 동일한 것):\n"
                 + list.get());
         return list;
@@ -54,6 +57,7 @@ public class UserService {
                 // idx 도 꼭 dto 에 추가해야한다. 안그러면 받아오질 못함.
                 .id(user.getId())
                 .passwd(user.getPasswd())
+                .name(user.getName())
                 .addr(user.getAddr())
                 .nick(user.getNick())
                 .owner(user.getOwner())
@@ -68,6 +72,7 @@ public class UserService {
                 // idx 도 꼭 dto 에 추가해야한다. 안그러면 받아오질 못함.
                 .id(userDto.getId())
                 .passwd(userDto.getPasswd())
+                .name(userDto.getName())
                 .addr(userDto.getAddr())
                 .nick(userDto.getNick())
                 .owner(userDto.getOwner())

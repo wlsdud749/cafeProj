@@ -24,6 +24,9 @@ public class Cafe {
     @JoinColumn(name = "user_idx")
     private User user;
 
+//    @Column(insertable = false, updatable = false)
+//    private Long user_idx;
+
     private String name;
     private String number;
     private String addr;

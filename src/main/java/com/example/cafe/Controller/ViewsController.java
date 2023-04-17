@@ -3,11 +3,15 @@ package com.example.cafe.Controller;
 import com.example.cafe.dto.CafeResDto;
 import com.example.cafe.dto.UserDto;
 import com.example.cafe.entity.Cafe;
+import com.example.cafe.entity.User;
+import com.example.cafe.repository.CafeRepository;
+import com.example.cafe.repository.UserRepository;
 import com.example.cafe.service.CafeService;
 import com.example.cafe.service.KakaoService;
 import com.example.cafe.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +32,8 @@ public class ViewsController {
     private final UserService userService;
     private final KakaoService kakaoService;
     private final CafeService cafeService;
+    private final UserRepository userRepository;
+    private final CafeRepository cafeRepository;
 
     @GetMapping(value = "/login")
     public void loginProc() {
@@ -36,7 +43,7 @@ public class ViewsController {
     // 로그인
     @PostMapping(value = "/signin")
     // redirect 시 RedirectAttributes 클래스를 사용하여 전달할 수 있다.
-    public String signIn(UserDto userDto, RedirectAttributes redirectAttributes) {
+    public String signIn(UserDto userDto, RedirectAttributes redirectAttributes, HttpServletRequest req) {
         log.info("user id = {}, user pw = {}", userDto.getId(), userDto.getPasswd());
         // ID 랑 PW 받아오기는 함.
         // 입력한 정보.
@@ -49,6 +56,9 @@ public class ViewsController {
             return "redirect:/error";
         }
 
+        HttpSession session = req.getSession();
+        session.setAttribute("userinfo", user);
+        // session 을 통해서 http 가 작동 할 때, 계속해서 정보를 담고 있는 session 을 만든다?
         redirectAttributes.addFlashAttribute("userinfo",
                 user);
         return "redirect:/home";
@@ -69,7 +79,7 @@ public class ViewsController {
         UserDto dto = (UserDto) map.get("userinfo");
         // user 정보 저장.
         Optional<List<Cafe>> CafeDto = userService.getList(dto.getIdx());
-        System.out.println(CafeDto.toString());
+//        System.out.println(CafeDto.toString());
         model.addAttribute("cafeinfo", CafeDto.orElse(null));
         // user_idx 와 user 테이블의 idx 가 동일한 cafe 테이블 출력
 //        System.out.println(CafeDto.getClass());
@@ -81,9 +91,15 @@ public class ViewsController {
 
     }
     @PostMapping(value="/registercafe")
-    public String registerCafe (CafeResDto cafeResDto, RedirectAttributes redirectAttributes) {
-        System.out.println(cafeResDto.toString());
-        var cafe = cafeService.registerCafe(cafeResDto);
+    public String registerCafe (CafeResDto cafeResDto,HttpServletRequest req) {
+        System.out.println("************* 이게 어디 부분인지 확인 좀 *************");
+//        System.out.println("카페 등록시, 카페 ResDto 의 정보" + cafeResDto.toString());
+        // 이게 에러
+        // 정보가 안찍히노
+        HttpSession session = req.getSession();
+        UserDto user = (UserDto)session.getAttribute("userinfo");
+        var cafe = cafeService.registerCafe(cafeResDto, user);
+        System.out.println("user 정보 :"+user + "cafe 정보:"+cafe);
         return "redirect:/searchResult";
     }
 
@@ -98,8 +114,9 @@ public class ViewsController {
     }
 
     @PostMapping(value="/searchCafe")
-    public String findSerach(@RequestParam("query") String query,Model model) {
+    public String findSearch(@RequestParam("query") String query,Model model) {
         List<CafeResDto> searchResults =kakaoService.search(query);
+
         model.addAttribute("searchResults",searchResults);
         System.out.println("정보:----" + searchResults);
         return "searchResult";
