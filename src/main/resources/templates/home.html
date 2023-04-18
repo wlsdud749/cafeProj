@@ -76,7 +76,7 @@
             <th>전화번호</th>
             <th>주소</th>
             <th>도로명주소</th>
-            <th>삭제</th>
+            <th>기능</th>
             <!-- 필요한 다른 컬럼들도 추가 -->
         </tr>
         <tr th:each="cafe, status : ${cafeinfo}" th:object="${cafe}">
@@ -86,18 +86,28 @@
             <td th:text="${cafe.addr2}"></td>
             <td>
 
-                    <!-- 삭제 버튼 클릭 시 실행될 동작을 구현, 버튼의 id에 고유한 값 부여 -->
-<!--                    <input type="hidden" th:name="'id'" th:value="${cafe.id}"/>-->
+                <form id="infoCafe" action="/infoCafe" method="post">
+                    <button type="submit" th:name="infoCafe" th:value="${cafe.idx}" th:id="${cafe.idx}"
+                            onclick="return goToReserveCafePage();">정보
+                    </button>
+                </form>
+
+                <!--                    // 어짜피 DB 에 저장이 되어 있으니까 DB 의 정보만 빼온다면?-->
+                <!--                    <input type="button" action="/infoCafe" value="정보" onclick="goToReserveCafePage()">-->
+                <!-- 삭제 버튼 클릭 시 실행될 동작을 구현, 버튼의 id에 고유한 값 부여 -->
+                <!--                    <input type="hidden" th:name="'id'" th:value="${cafe.id}"/>-->
                 <form id="deleteForm" action="/delete" method="post">
-                    <button type="submit" th:name="deleteForm" th:value="${cafe.idx}" th:id="${cafe.idx}" onclick="return confirmDelete();" >삭제</button>
-<!--                    상원대장 아이디어 반영 (onclick="return confirmDelete();) -->
-<!--                    name 의 값이 전달하는 값. (@RequestParam)-->
+                    <button type="submit" th:name="deleteForm" th:value="${cafe.idx}" th:id="${cafe.idx}"
+                            onclick="return confirmDelete();">삭제
+                    </button>
+                    <!--                    상원대장 아이디어 반영 (onclick="return confirmDelete();) -->
+                    <!--                    name 의 값이 전달하는 값. (@RequestParam)-->
                 </form>
             </td>
     </table>
     <div>
         <input type="button" value="추가" onclick="goToUserAddPage()">
-        <input type="button" value="정보" onclick="goToinfoCafePage()">
+
     </div>
     <div>
         <button>Prev</button>
@@ -114,8 +124,8 @@
         window.location.href = "/search2";
     }
 
-    function goToinfoCafePage() {
-        window.location.href = "/map";
+    function goToReserveCafePage() {
+        window.location.href = "/reserve";
     }
 
     function confirmDelete() {

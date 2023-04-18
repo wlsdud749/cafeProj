@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -101,6 +102,8 @@ public class ViewsController {
         return "redirect:/home";
     }
 
+    // ************* cafe 정보 담아서 예약 페이지에 뿌리기 *************
+
     // 게시글 삭제
     @PostMapping("/delete")
     public String deleteCafe (@RequestParam ("deleteForm") Long deleteForm) {
@@ -136,7 +139,20 @@ public class ViewsController {
 
     }
 
+    @Transactional
+    @PostMapping(value = "/infoCafe")
+    public String infoCafe(@RequestParam("infoCafe") Long infoCafe,Model model ) {
+        var cafeResDto = cafeRepository.findById(infoCafe).get();
+        model.addAttribute("infoCafe",cafeResDto);
+        System.out.println("cafeResDto 정보 *******"+cafeResDto);
 
+
+        return "reserve";
+    }
+    @GetMapping(value = "/reserve")
+    public void reserveProc() {
+
+    }
     @GetMapping(value = "/map")
     public void mapProc() {
 
