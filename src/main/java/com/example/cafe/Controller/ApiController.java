@@ -4,6 +4,7 @@ package com.example.cafe.Controller;
 import com.example.cafe.dto.CafeResDto;
 import com.example.cafe.kakao.KakaoClient;
 import com.example.cafe.kakao.dto.LocalSearchReqDto;
+import com.example.cafe.repository.CafeRepository;
 import com.example.cafe.service.CafeService;
 import com.example.cafe.service.KakaoService;
 import com.example.cafe.service.UserService;

@@ -3,7 +3,6 @@ package com.example.cafe.Controller;
 import com.example.cafe.dto.CafeResDto;
 import com.example.cafe.dto.UserDto;
 import com.example.cafe.entity.Cafe;
-import com.example.cafe.entity.User;
 import com.example.cafe.repository.CafeRepository;
 import com.example.cafe.repository.UserRepository;
 import com.example.cafe.service.CafeService;
@@ -30,6 +29,7 @@ import java.util.Optional;
 public class ViewsController {
 
     private final UserService userService;
+    @Autowired
     private final KakaoService kakaoService;
     private final CafeService cafeService;
     private final UserRepository userRepository;
@@ -43,8 +43,8 @@ public class ViewsController {
     // 로그인
     @PostMapping(value = "/signin")
     // redirect 시 RedirectAttributes 클래스를 사용하여 전달할 수 있다.
-    public String signIn(UserDto userDto, RedirectAttributes redirectAttributes, HttpServletRequest req) {
-        log.info("user id = {}, user pw = {}", userDto.getId(), userDto.getPasswd());
+    public String signIn(UserDto userDto, RedirectAttributes redirectAttributes, HttpServletRequest req,Model model) {
+        log.info("이거 어디고 #*#*#**#*#*#*#*#**#**#* user id = {}, user pw = {}", userDto.getId(), userDto.getPasswd());
         // ID 랑 PW 받아오기는 함.
         // 입력한 정보.
 
@@ -56,11 +56,11 @@ public class ViewsController {
             return "redirect:/error";
         }
 
+        // session 을 통해서 http 가 작동 할 때, 계속해서 정보를 담고 있는 session 을 만든다?
         HttpSession session = req.getSession();
         session.setAttribute("userinfo", user);
-        // session 을 통해서 http 가 작동 할 때, 계속해서 정보를 담고 있는 session 을 만든다?
-        redirectAttributes.addFlashAttribute("userinfo",
-                user);
+        model.addAttribute("userinfo",user);
+        System.out.println("userinfo 확인하기 (로그인 했을 경우) : ****" + user);
         return "redirect:/home";
     }
 
@@ -75,24 +75,22 @@ public class ViewsController {
 
     @GetMapping(value = "/home")
     public void home(HttpServletRequest req, Model model) {
-        var map = RequestContextUtils.getInputFlashMap(req);
-        UserDto dto = (UserDto) map.get("userinfo");
+//        유저정보
         // user 정보 저장.
+        HttpSession session = req.getSession();
+        UserDto dto = (UserDto) session.getAttribute("userinfo");
+//        idx 별 유저의 카페 정보
         Optional<List<Cafe>> CafeDto = userService.getList(dto.getIdx());
 //        System.out.println(CafeDto.toString());
         model.addAttribute("cafeinfo", CafeDto.orElse(null));
         // user_idx 와 user 테이블의 idx 가 동일한 cafe 테이블 출력
 //        System.out.println(CafeDto.getClass());
 
-    }
-
-    @GetMapping(value = "/user-add")
-    public void userAddProc() {
 
     }
+    // **********  추가 기능  **********
     @PostMapping(value="/registercafe")
     public String registerCafe (CafeResDto cafeResDto,HttpServletRequest req) {
-        System.out.println("************* 이게 어디 부분인지 확인 좀 *************");
 //        System.out.println("카페 등록시, 카페 ResDto 의 정보" + cafeResDto.toString());
         // 이게 에러
         // 정보가 안찍히노
@@ -100,8 +98,22 @@ public class ViewsController {
         UserDto user = (UserDto)session.getAttribute("userinfo");
         var cafe = cafeService.registerCafe(cafeResDto, user);
         System.out.println("user 정보 :"+user + "cafe 정보:"+cafe);
-        return "redirect:/searchResult";
+        return "redirect:/home";
     }
+
+    // 게시글 삭제
+    @PostMapping("/delete")
+    public String deleteCafe (@RequestParam ("deleteForm") Long deleteForm) {
+        cafeService.delCafe(deleteForm);
+        return "redirect:/home";
+    }
+
+    @GetMapping(value = "/user-add")
+    public void userAddProc() {
+
+    }
+
+
 
     @PostMapping(value = "/signup")
     public String signUp(UserDto userDto, RedirectAttributes redirectAttributes) {
@@ -113,6 +125,7 @@ public class ViewsController {
         return "redirect:/login";
     }
 
+    // 검색 결과를 나타내네
     @PostMapping(value="/searchCafe")
     public String findSearch(@RequestParam("query") String query,Model model) {
         List<CafeResDto> searchResults =kakaoService.search(query);

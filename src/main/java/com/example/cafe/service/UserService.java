@@ -26,7 +26,7 @@ public class UserService {
         // 받아옴
 //        System.out.println(userDto.getId() + "ㅁㅁㅁㅁㅁ" + userDto.getPasswd());
         Optional<User> user = userRepository.findByIdAndPasswd(userDto.getId(), userDto.getPasswd());
-        // ㅅ ㅂ 갑자기 이거도 null 값
+        // 갑자기 이거도 null 값
         System.out.println("findByIdAndPasswd에서 가져온 유저 정보. " + user.get());
         // 정보가 없다고 한다 ..
         // idx , userId, userPw 가 널값이다.. 왜지?

@@ -110,4 +110,16 @@ public class CafeService {
         return dto;
     }
 
+
+
+    // 삭제
+    @Transactional
+    public void delCafe(Long id) {
+        Cafe target = cafeRepository.findById(id)
+                .orElseThrow(
+                        () -> new IllegalArgumentException("해당 Cafe 가 없습니다."+id)
+                );
+        cafeRepository.delete(target);
+    }
+
 }
