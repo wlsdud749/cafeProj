@@ -79,7 +79,7 @@
             <th>기능</th>
             <!-- 필요한 다른 컬럼들도 추가 -->
         </tr>
-        <tr th:each="cafe, status : ${cafeinfo}" th:object="${cafe}">
+        <tr th:each="cafe, status : ${cafeinfo}"  th:object="${cafe}">
             <td th:text="${cafe.name}"></td>
             <td th:text="${cafe.number}"></td>
             <td th:text="${cafe.addr}"></td>

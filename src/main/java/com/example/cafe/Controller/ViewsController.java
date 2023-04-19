@@ -41,6 +41,7 @@ public class ViewsController {
 
     }
 
+
     // 로그인
     @PostMapping(value = "/signin")
     // redirect 시 RedirectAttributes 클래스를 사용하여 전달할 수 있다.
