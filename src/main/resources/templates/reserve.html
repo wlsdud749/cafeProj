@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>테이블 예약 페이지</title>
+    <style media="screen">
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        table {
+            margin-top: 20px;
+            text-align: center;
+            margin-right: 20px; /* table 우측에 공간을 확보 */
+        }
+
+        th, td {
+            padding: 10px;
+        }
+
+        th {
+            color: green;
+            cursor: pointer;
+        }
+
+        th.clicked {
+            color: red;
+        }
+
+        #map {
+            width: 50%;
+            height: 350px;
+            float: right; /* 우측으로 배치 */
+        }
+
+        #container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40%; /* 좌측으로 배치 */
+            height: 350px;
+        }
+
+        #divClock {
+            font-size: 30px;
+            color: green;
+        }
+    </style>
+</head>
+<body onload="showClock()">
+<h3><span th:text="|반갑습니다 ${session.userinfo.nick}님|"></span></h3>
+<div th:if="${infoCafe != null}">
+    <h3><span th:text="|선택하신 카페의 이름은 ${infoCafe.name} 입니다|"></span></h3>
+</div>
+<div id="divClock" class="clock">
+
+</div>
+
+</h3>
+
+<h6>카페 위치</h6>
+<!--alert 용은 그냥 뽀대 일 뿐이고, 리스트로 해서 컨트롤러로 넘겨야겠다.-->
+
+
+<!--test 용입니다 ... -->
+<!--카카오 api (map 부분)-->
+<div id="map" style="width:500px;height:250px;"></div>
+<div th:if="${infoCafe != null}">
+    <h6>
+        <span id="cafeSpan" th:text="| ${infoCafe.addr}| "></span>
+        <input hidden="hidden" id="cafeIdx" th:value="${infoCafe.idx}">
+    </h6>
+    <h2><span id="reserve-time"></span></h2>
+</div>
+<!-- infoCafe.idx 는 값 들어있음-->
+<hr/>
+<h5>원하시는 좌석을 선택해주세요.</h5>l
+<!--table 부분-->
+<div id="container">
+    <table border="1">
+        <tbody>
+        <tr th:each="row : ${#numbers.sequence(0,3)}">
+            <th th:each="col : ${#numbers.sequence(0,3)}" th:text="${row * 4 + col + 1}"></th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=406784a1fe10d8f90dc9afa5b43d84c9"></script>
+<script th:inline="javascript">
+
+    /* ajax 및 jquery 사용 */
+    // 그렇다면 이미 받아온 정보를 보내는것도 가능한가?
+    // $(document).ready(function () {
+    //     $('th').on('click',function() {
+    //         var seatId = $(this).attr('id');
+    //         var cafeIdx = $("#cafeIdx").val();
+    //         console.log(cafeIdx);
+    //         // AJAX 요청 보내기
+    //         $.ajax({
+    //             url: '/apis/reserveUser?seat_id='+seatId+'&cafe_idx='+cafeIdx,
+    //             type: 'GET',
+    //
+    //         success:function(response) {
+    //                 alert("데이터 전송 성공");
+    //                 // 성공
+    //         },
+    //         error:function(xhr,status,error) {
+    //                 //실패
+    //             alert("에러");
+    //         }
+    //         });
+    //     });
+    // });
+
+    var c = null;
+    // chatGPT 사랑해요
+    $(document).ready(function () {
+        $('th').on('click', function () {
+            var that = $(this);
+            var seatId = that.attr('id');
+            var cafeIdx = $("#cafeIdx").val();
+
+            if (confirm('이 좌석을 예약하시겠습니까?')) {
+                var reserveTime = prompt('예약 시간을 입력하세요.');
+                if (reserveTime != null) {
+                    $.ajax({
+                        url: '/apis/reserveUser?seat_id=' + seatId + '&cafe_idx=' + cafeIdx + '&reserve_time=' + reserveTime,
+                        type: 'GET',
+                        success: function (response) {
+                            var message = "예약이 완료되었습니다. 예약 시간: " + reserveTime;
+                            alert(message);
+                            that.css('color', 'red');
+
+                            $("#reserve-time").text("예약 시간: " + reserveTime).css('color', 'red');
+
+                            var c = [[${roomDto}]]
+                        },
+                        error: function (xhr, status, error) {
+                            alert("예약에 실패했습니다.");
+                        }
+                    });
+                }
+            }
+        });
+    });
+
+    /*카카오 api 부분*/
+
+    var xValue = [[${infoCafe.x}]];
+    var yValue = [[${infoCafe.y}]];
+
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            // center: new kakao.maps.LatLng(35.8340500195735, 129.214987136254),
+            center: new kakao.maps.LatLng(yValue, xValue),
+            // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+        };
+
+    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+    // 마커가 표시될 위치입니다
+    // var markerPosition  = new kakao.maps.LatLng(35.8340500195735, 129.214987136254);
+    // y값,x값
+    var markerPosition = new kakao.maps.LatLng(yValue, xValue);
+
+    // 마커를 생성합니다
+    var marker = new kakao.maps.Marker({
+        position: markerPosition
+    });
+
+    // 마커가 지도 위에 표시되도록 설정합니다
+    marker.setMap(map);
+
+    // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+    // marker.setMap(null);
+
+    /*자리 예약 자바스크립트 이용 -> 주석처리.*/
+    // window.addEventListener('load', function() {
+    //   var thList = document.getElementsByTagName('th');
+    //   const time = prompt("예약하실 시간을 입력해주세요. (ex. 15:00) 30분 단위로 입력해주세요.");
+    //   const message = `${time}에 예약하시겠습니까?`;
+    //   const isConfirmed = confirm(message);
+    //   var nick = /*[[${session.userinfo.nick}]]*/ '';
+    //
+    //   for (var i = 0; i < thList.length; i++) {
+    //     thList[i].addEventListener('click', function() {
+    //         if (this.classList.contains('clicked')) {
+    //             const isCanceled = confirm("예약 취소 / 퇴실 하시겠습니까?");
+    //             if (isCanceled) {
+    //                 // 예약 취소 처리
+    //                 this.classList.remove('clicked');
+    //                 alert(`${time}에 예약이 취소되었습니다.`);
+    //             }
+    //         } else {
+    //             if (isConfirmed) {
+    //                 // 예약 처리
+    //                 this.classList.add('clicked');
+    //                 alert('<'+nick+'> 님의 예약이'+`${time}에 예약이 완료되었습니다.`);
+    //             }
+    //         }
+    //     });
+    //   }
+    // });
+
+    /* 현재 시간 출력 하는 부분 */
+    function showClock() {
+        var currentDate = new Date();
+        var divClock = document.getElementById('divClock');
+        var msg = "  ";
+        if (currentDate.getHours() > 12) {      //시간이 12보다 크다면 오후 아니면 오전
+            msg += "오후 ";
+            msg += currentDate.getHours() - 12 + ": ";
+        } else {
+            msg += "오전 ";
+            msg += currentDate.getHours() + ": ";
+        }
+
+        msg += currentDate.getMinutes() + ": ";
+        msg += currentDate.getSeconds();
+
+        divClock.innerText = msg;
+
+        if (currentDate.getMinutes() > 58) {    //정각 1분전부터 빨강색으로 출력
+            divClock.style.color = "red";
+        }
+        setTimeout(showClock, 1000);  //1초마다 갱신
+    }
+</script>
