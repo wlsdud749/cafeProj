@@ -2,24 +2,30 @@ package com.example.cafe.service;
 
 
 import com.example.cafe.dto.CafeResDto;
+import com.example.cafe.dto.RoomDto;
 import com.example.cafe.dto.UserDto;
 import com.example.cafe.entity.Cafe;
+import com.example.cafe.entity.Room;
+import com.example.cafe.entity.User;
 import com.example.cafe.repository.CafeRepository;
+import com.example.cafe.repository.RoomRepository;
 import com.example.cafe.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class CafeService {
-
-    @Autowired
     private final CafeRepository cafeRepository;
     private final UserService userService;
     private final UserRepository userRepository;
+    private final RoomRepository roomRepository;
 
 //    public CafeResDto registerCafe(CafeResDto cafeResDto) {
 //
@@ -79,13 +85,62 @@ public class CafeService {
         // CafeRestDto 의 idx 값은 널이 당연하다고 함.
         // idx 가 널 값.
         // CafeResDto로 변환하여 반환
-        return entityToDto(cafe,user);
+        CafeResDto cafeDto = entityToDto(cafe);
+        cafeDto.setUser_idx(user.getIdx());
+        return cafeDto;
+    }
+
+    @Transactional
+    public CafeResDto getCafeInfo(Long idx, String seat_id,  UserDto userDto) {
+        Optional<Cafe> cafe = cafeRepository.findById(idx);
+        CafeResDto cafeResDto = null;
+        if (cafe.isPresent()) {
+            cafeResDto = entityToDto(cafe.get());
+            Room room = Room.builder()
+                    .seat_name(seat_id)
+                    .cafe(cafe.get())
+                    .user(dtoToEntity(userDto))
+                    .build();
+            roomRepository.save(room);
+        }
+        return cafeResDto;
+    }
+    @Transactional
+    public List<RoomDto> getRoom(Long idx) {
+        Optional<List<Room>> cafeRoom = roomRepository.findByCafeIdx(idx);
+        List<RoomDto> roomList = new ArrayList<>();
+        if(cafeRoom.isPresent()) {
+            for(Room room: cafeRoom.get()) {
+                RoomDto roomDto = room_entityToDto(room);
+                roomList.add(roomDto);
+            }
+        }
+        return roomList;
+    }
+
+    private RoomDto room_entityToDto(Room room) {
+        RoomDto roomDto = RoomDto.builder()
+                .idx(room.getIdx())
+                .cafe_idx(room.getCafe().getIdx())
+                .seat_name(room.getSeat_name())
+                .user_idx(room.getUser().getIdx())
+                .build();
+
+        return roomDto;
+    }
+
+    @Transactional
+    public CafeResDto getCafe(Long idx) {
+        Optional<Cafe> cafe = cafeRepository.findById(idx);
+        return CafeResDto.builder()
+                .idx(cafe.get().getIdx())
+                .name(cafe.get().getName())
+                .build();
     }
 
 
-
     // 프론트에 던저주기 위해서 entityToDto 를 사용
-    private CafeResDto entityToDto(Cafe cafe, UserDto user) {
+    private CafeResDto entityToDto(Cafe cafe) {
         var dto = CafeResDto.builder().
                 name(cafe.getName())
                 .idx(cafe.getIdx())
@@ -94,7 +149,6 @@ public class CafeService {
                 .xValue(cafe.getX())
                 .yValue(cafe.getY())
                 .number(cafe.getNumber())
-                .user_idx(user.getIdx())
                 .build();
         return dto;
     }
@@ -107,6 +161,21 @@ public class CafeService {
                 .addr2(cafeResDtoDto.getAddr2())
                 .number(cafeResDtoDto.getNumber())
                 .build();
+        return dto;
+    }
+
+    User dtoToEntity(UserDto userDto) {
+        var dto = User.builder()
+                .idx(userDto.getIdx())
+                // idx 도 꼭 dto 에 추가해야한다. 안그러면 받아오질 못함.
+                .id(userDto.getId())
+                .passwd(userDto.getPasswd())
+                .name(userDto.getName())
+                .addr(userDto.getAddr())
+                .nick(userDto.getNick())
+                .owner(userDto.getOwner())
+                .build();
+
         return dto;
     }
 

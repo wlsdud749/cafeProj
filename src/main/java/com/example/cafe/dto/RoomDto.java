@@ -1,4 +1,4 @@
-package com.example.cafe.entity;
+package com.example.cafe.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,15 +13,14 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Menu {
-    
+public class RoomDto {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동증가
     private long idx;
-    private  String name;
-    private int price;
 
-    // 조인 컬럼 수정해야댐
+    //좌석번호
+    private String seat_name;
     private long cafe_idx;
-    
+    private long user_idx;
 }

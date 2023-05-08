@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8">
+    <title>간단한 게시판</title>
+</head>
+<body>
+<h1>게시글 작성하기</h1>
+<h2><span th:text="|안녕하세요 ${session.userinfo.nick}님|"></span></h2>
+<form id="board">
+    <label for="title">제목:</label>
+    <input type="text" id="title" name="title"><br><br>
+    <!--    <label for="author">작성자:</label>-->
+    <!--    <input type="text" id="author" name="author" th:value="${session.userinfo.nick}" readonly><br><br>-->
+    <label for="content">내용:</label><br>
+    <textarea id="content" name="content" rows="10" cols="50"></textarea><br><br>
+    <input type="submit" value="작성">
+</form>
+<hr>
+<h2>게시글 목록</h2>
+<table>
+    <thead>
+    <tr>
+        <th>No.</th>
+        <th>제목</th>
+        <th>내용
+        <th>정보</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="board : ${boardList}">
+        <td th:text="${board.idx}"></td>
+        <td th:text="${board.title}"></td>
+        <td th:text="${board.content}"></td>
+        <td>
+            <button class="info-btn" th:value="${board.idx}">정보</button>
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+</body>
+
+<script>
+
+    // 게시글의 idx 만 보내기
+    $(document).ready(function() {
+        // 정보 버튼 클릭 시 이벤트 핸들러 등록
+        $(".info-btn").click(function() {
+            // 모델에 저장된 boardinfo의 idx 가져오기
+            var boardIdx = $(this).val();
+            window.location.href = "/boardinfo?boardIdx=" + boardIdx;
+        });
+    });
+
+    // 데이터 (제목,작성자,내용 보내는 코드)
+    $(document).ready(function () {
+        $("#board").submit(function (event) {
+            event.preventDefault(); // 기본 동작을 막음
+
+            // 입력된 데이터를 가져옴
+            var title = $("#title").val();
+            var author = $("#author").val();
+            var content = $("#content").val();
+
+            // ajax 호출
+            $.ajax({
+                url: "/board",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                // contentType 제발 명시해주기.
+                // JSON 은 위와 같은 CONTENT TYPE 명시.
+                data: JSON.stringify({title: title, author: author, content: content}),
+                // JSON 객체 형식으로 변경하기 위해 stringify 사용
+                success: function (response) {
+                    // 성공 시 처리할 로직
+                    alert("글 작성이 완료되었습니다.");
+                },
+                error: function (xhr, status, error) {
+                    // 실패 시 처리할 로직
+                    alert("글 작성 실패.");
+                }
+            });
+        });
+    });
+
+
+</script>
+</html>

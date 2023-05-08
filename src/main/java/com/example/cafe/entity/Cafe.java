@@ -1,11 +1,12 @@
 package com.example.cafe.entity;
 
 import com.example.cafe.entity.listener.LibraryEntityListener;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @EntityListeners(value = { LibraryEntityListener.class })
@@ -23,6 +24,10 @@ public class Cafe {
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinColumn(name = "user_idx")
     private User user;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "cafe")
+    private final List<Room> rooms = new ArrayList<>();
 
 //    @Column(insertable = false, updatable = false)
 //    private Long user_idx;

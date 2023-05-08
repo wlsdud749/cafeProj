@@ -111,8 +111,9 @@
     </div>
     <div>
         <button>Prev</button>
-        <button>HOME</button>
-        <button>Next</button>
+        <button onclick="goToHomePage()">HOME</button>
+        <button onclick="goToBoardPage()" >글쓰기 페이지 </button>
+        <button onclick="goToTestPage()" >마커 페이지 </button>
     </div>
 </div>
 </body>
@@ -126,6 +127,18 @@
 
     function goToReserveCafePage() {
         window.location.href = "/reserve";
+    }
+
+    function goToHomePage() {
+        window.location.href = "/home";
+    }
+
+    function goToBoardPage() {
+        window.location.href = "/board";
+    }
+
+    function goToTestPage() {
+        window.location.href = "/test";
     }
 
     function confirmDelete() {

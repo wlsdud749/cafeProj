@@ -38,12 +38,21 @@
     <div class="search">
       <h2>원하시는 카페의 이름을 입력해주세요.</h2>
       <h3>정확한 정보가 필요합니다 . ex) 스타벅스 대구</h3>
+    </div>
       <div class="search">
         <input type="text" id="searchInput" name="query" placeholder="카페 이름을 입력하세요">
 
         <input type="submit" value="검색">
+<!--        <button onclick="goToHomePage()">HOME</button>-->
+      </div>
   </form>
-
 </div>
+
 </body>
+
+<script>
+  function goToHomePage() {
+    window.location.href = "/home";
+  }
+</script>
 </html>

@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface CafeRepository extends JpaRepository<Cafe, Long> {
     Optional<List<Cafe>> findByUserIdx(Long userId);
+
+//    Optional<List<Cafe>> findByCafeName(String name);
 }

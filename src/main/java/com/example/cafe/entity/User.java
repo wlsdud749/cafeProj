@@ -15,7 +15,9 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name="user")
+
 public class User {
+
 
     @Id // 기본키
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동증가
@@ -30,13 +32,14 @@ public class User {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "user")
-    private List<Cafe> cafes = new ArrayList<>(); // Cafe 엔티티와의 OneToMany 관계를 정의
+    private final List<Cafe> cafes = new ArrayList<>(); // Cafe 엔티티와의 OneToMany 관계를 정의
 
     // 편의 메서드
     public void addCafe(Cafe cafe) {
         cafes.add(cafe);
 
     }
+
 
 
 

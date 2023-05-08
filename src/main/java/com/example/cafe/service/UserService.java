@@ -38,6 +38,18 @@ public class UserService {
     }
 
 
+//    이딴거 누가 가르쳐 줬노 - 복 쌤
+//    @Transactional
+//    public UserDto findByName(String userName) {
+//        Optional<User> user = userRepository.findByName(userName);
+//
+//        System.out.println("findByName 에서 가져온 유저 정보"+user.get());
+//
+//
+//        return entityToDto(user.get());
+//    }
+
+
     @Transactional
     public Optional<List<Cafe>> getList(Long idx) {
         var list = cafeRepository.findByUserIdx(idx);
@@ -97,5 +109,18 @@ public class UserService {
         }
         return entityToDto(user);
 
+    }
+
+    public UserDto getUser(Long idx) {
+
+        //여기
+        Optional<User> user = userRepository.findById(idx);
+        if (user.isPresent()) {
+            return UserDto.builder()
+                    .idx(user.get().getIdx())
+                    .name(user.get().getName())
+                    .build();
+        }
+        return null;
     }
 }
