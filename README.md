@@ -3,17 +3,9 @@
 카페 확인 여석 웹 앱 
 
 사용 기술
--JAVA 11 
+- JAVA 11 
+- Spring
 
--Spring MVC
-
--Jquery
--Ajax
--Spring Data JPA
--MySQL
--HTML
--CSS
--JAVASCRIPT
 
 사용 툴
 -INTELIJ
