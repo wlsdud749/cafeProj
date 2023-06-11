@@ -5,12 +5,17 @@
 사용 기술
 - JAVA 11 
 - Spring
+- Spring Data JPA
+- Jquery
+- Ajax
+- MySQL
+- HTML, CSS, JAVASCRIPT
 
 
 사용 툴
--INTELIJ
--VSCODE
--TALEND
+- INTELIJ
+- VSCODE
+- TALEND
 
 - 기능
 1. 카페 검색
