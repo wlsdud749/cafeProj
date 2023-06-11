@@ -2,6 +2,22 @@
 
 카페 확인 여석 웹 앱 
 
+사용 기술
+-JAVA 11 
+-Spring MVC
+-Jquery
+-Ajax
+-Spring Data JPA
+-MySQL
+-HTML
+-CSS
+-JAVASCRIPT
+
+사용 툴
+-INTELIJ
+-VSCODE
+-TALEND
+
 - 기능
 1. 카페 검색
 2. 로그인 및 회원가입 (서큐리티 사용x)
