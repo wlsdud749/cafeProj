@@ -168,21 +168,6 @@ public class ViewsController {
     }
 
 
-//    @PostMapping("/board")
-//    public String boardRes(@RequestBody BoardDto boardDto,
-//                         Model model) {
-//
-//        // board 객체를 생성하면 자동으로 값이 채워진다는데?
-//        // 와우 조때노 !
-//        System.out.println("RequestBody 를 통해 넘어온 값"+boardDto);
-//        boardService.resBoard(boardDto);
-//        model.addAttribute("boardinfo",boardDto);
-//        System.out.println("boardinfo 가 저장됐는지 확인하는 부분"+boardDto);
-//
-//
-//        return "redirect:/board";
-//
-//    }
 
     @Transactional
     @PostMapping("/writeBoard")
