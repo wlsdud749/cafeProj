@@ -48,13 +48,13 @@ public class ViewsController {
     @PostMapping(value = "/signin")
     // redirect 시 RedirectAttributes 클래스를 사용하여 전달할 수 있다.
     public String signIn(UserDto userDto, RedirectAttributes redirectAttributes, HttpServletRequest req, Model model) {
-        log.info("이거 어디고 #*#*#**#*#*#*#*#**#**#* user id = {}, user pw = {}", userDto.getId(), userDto.getPasswd());
+//        log.info("이거 어디고 #*#*#**#*#*#*#*#**#**#* user id = {}, user pw = {}", userDto.getId(), userDto.getPasswd());
         // ID 랑 PW 받아오기는 함.
         // 입력한 정보.
 
         var user = userService.findByIdAndPasswd(userDto);
         if (user == null) {
-            System.out.println("user 가 널 값 입니다.");
+//            System.out.println("user 가 널 값 입니다.");
             redirectAttributes.addFlashAttribute("status", HttpStatus.BAD_REQUEST.toString());
             return "redirect:/error";
         }
@@ -67,14 +67,6 @@ public class ViewsController {
         return "redirect:/home";
     }
 
-//    @GetMapping(value="/home")
-//    public void home(HttpServletRequest req, Model model) {
-//        var user = RequestContextUtils.getInputFlashMap(req);
-//        UserDto dto = (UserDto) user.get("userinfo");
-//        Optional<User> UserDto = userService.getList(dto.getIdx());
-//        model.addAttribute("userinfo", UserDto.orElse(null));
-//        System.out.println("저장됨?"+UserDto);
-//    }
 
     @GetMapping(value = "/home")
     public void home(HttpServletRequest req, Model model) {
@@ -101,11 +93,10 @@ public class ViewsController {
     public String registerCafe(CafeResDto cafeResDto, HttpServletRequest req) {
 //        System.out.println("카페 등록시, 카페 ResDto 의 정보" + cafeResDto.toString());
         // 이게 에러
-        // 정보가 안찍히노
         HttpSession session = req.getSession();
         UserDto user = (UserDto) session.getAttribute("userinfo");
         var cafe = cafeService.registerCafe(cafeResDto, user);
-        System.out.println("user 정보 :" + user + "cafe 정보:" + cafe);
+//        System.out.println("user 정보 :" + user + "cafe 정보:" + cafe);
         return "redirect:/home";
     }
 
@@ -126,7 +117,7 @@ public class ViewsController {
 
     @PostMapping(value = "/signup")
     public String signUp(UserDto userDto, RedirectAttributes redirectAttributes) {
-        System.out.println(userDto.toString());
+//        System.out.println(userDto.toString());
         var user = userService.registerUser(userDto);
 
         redirectAttributes.addFlashAttribute("userinfo", user);
@@ -139,7 +130,7 @@ public class ViewsController {
         List<CafeResDto> searchResults = kakaoService.search(query);
 
         model.addAttribute("searchResults", searchResults);
-        System.out.println("정보:----" + searchResults);
+//        System.out.println("정보:----" + searchResults);
         return "searchResult";
 
     }
@@ -194,7 +185,7 @@ public class ViewsController {
 //    }
 
     @Transactional
-    @PostMapping("/board")
+    @PostMapping("/writeBoard")
     public String boardRes(@RequestBody BoardDto boardDto, HttpServletRequest req) {
 
         HttpSession session = req.getSession();
@@ -205,6 +196,7 @@ public class ViewsController {
         // 찍힘
 //        System.out.println("user idx 찍히는지 확인"+ user);
         boardService.resBoard(boardDto,user);
+
 //        HttpSession session = req.getSession();
 //        UserDto dto = (UserDto) session.getAttribute("userinfo");
         return "redirect:/board";
@@ -212,7 +204,7 @@ public class ViewsController {
 
     @GetMapping("/board")
     public String boardProc(Model model,HttpServletRequest req) {
-//        System.out.println("접근하는지 확인");
+        System.out.println("접근하는지 확인");
         // GET 할때마다 불러온다면?
         HttpSession session = req.getSession();
         UserDto dto = (UserDto) session.getAttribute("userinfo");
@@ -226,12 +218,12 @@ public class ViewsController {
 
     @GetMapping("/boardinfo")
     public String boardinfo(@RequestParam("boardIdx") Long boardIdx , HttpServletRequest req,Model model) {
-        System.out.println("접근은 하는지 (boardinfo)");
+//        System.out.println("접근은 하는지 (boardinfo)");
         HttpSession session = req.getSession();
         UserDto dto = (UserDto) session.getAttribute("userinfo");
         var board = boardRepository.findById(boardIdx);
         model.addAttribute(String.valueOf(board),"boardinfo");
-        System.out.println("boardinfo 나오는지?"+board);
+//        System.out.println("boardinfo 나오는지?"+board);
 
 
         return "boardinfo";

@@ -1,6 +1,5 @@
 package com.example.cafe.service;
 
-
 import com.example.cafe.dto.BoardDto;
 import com.example.cafe.dto.UserDto;
 import com.example.cafe.entity.Board;
@@ -34,7 +33,7 @@ public class BoardService {
         boardRepository.save(board);
         board_entityToDto(board);
 
-        System.out.println("테스트"+board);
+//        System.out.println("테스트"+board);
 
         return dto;
     }

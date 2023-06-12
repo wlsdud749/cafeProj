@@ -56,13 +56,13 @@ public class CafeService {
         var userEntity = userRepository.findById(user.getIdx()).get();
         //Long user_idx = user.getIdx();
 
-        System.out.println("user 정보 확인 ----- ******\n "+user);
+//        System.out.println("user 정보 확인 ----- ******\n "+user);
         // 정보는 잘 전달 됨
-         System.out.println("정보 확인용 ------- \n"+cafeResDto);
+//         System.out.println("정보 확인용 ------- \n"+cafeResDto);
         // idx 가 나오긴하는데
         // user 정보 확인 -----
         // UserDto(idx=1, id=Bok2, passwd=1234, name=null, nick=복선생2, addr=복 선생 마음 속2, owner=0)
-        System.out.println("user_idx 정보 확인 ------ *****"+user.getIdx());
+//        System.out.println("user_idx 정보 확인 ------ *****"+user.getIdx());
 //        System.out.println("user_idx 정보 확인 ----" + user_idx);
 
 
@@ -81,7 +81,7 @@ public class CafeService {
                 .build();
         // Cafe 엔티티 저장
         cafe = cafeRepository.save(cafe);
-        System.out.println("정보 확인용 (Cafe Repository) -->" + cafe);
+//        System.out.println("정보 확인용 (Cafe Repository) -->" + cafe);
         // CafeRestDto 의 idx 값은 널이 당연하다고 함.
         // idx 가 널 값.
         // CafeResDto로 변환하여 반환

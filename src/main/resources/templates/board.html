@@ -66,16 +66,18 @@
 
             // ajax 호출
             $.ajax({
-                url: "/board",
+                url: "/writeBoard",
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
                 // contentType 제발 명시해주기.
                 // JSON 은 위와 같은 CONTENT TYPE 명시.
                 data: JSON.stringify({title: title, author: author, content: content}),
                 // JSON 객체 형식으로 변경하기 위해 stringify 사용
+
                 success: function (response) {
                     // 성공 시 처리할 로직
                     alert("글 작성이 완료되었습니다.");
+                    // location.reload();
                 },
                 error: function (xhr, status, error) {
                     // 실패 시 처리할 로직
