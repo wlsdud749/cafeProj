@@ -30,3 +30,4 @@
 1. 게시판 마무리 작업
 2. 스타일 작업
 3. index 페이지 연결 -> login.html 을 index 로 바꾸는데 오류 발생 ..
+4. 보안 관련 문제 (Spring Security)
