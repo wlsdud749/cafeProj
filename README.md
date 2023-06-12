@@ -1,6 +1,7 @@
 # cafeProj
 
 카페 확인 여석 웹 앱 
+(localhost8080/login 으로 접속) 
 
 사용 기술
 - JAVA 11 
@@ -28,3 +29,4 @@
 -추가해야 할 사항
 1. 게시판 마무리 작업
 2. 스타일 작업
+3. index 페이지 연결 -> login.html 을 index 로 바꾸는데 오류 발생 ..
