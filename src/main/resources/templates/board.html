@@ -24,7 +24,7 @@
         <td th:text="${board.title}"></td>
         <td th:text="${board.content}"></td>
         <td>
-            <button class="info-btn" th:value="${board.idx}">정보</button>
+            <button class="info-btn">정보</button>
         </td>
         <td>
             <button class="del-btn">삭제</button>
@@ -47,17 +47,19 @@
         // 정보 버튼 클릭 시 이벤트 핸들러 등록
         $(".info-btn").click(function() {
             // 모델에 저장된 boardinfo의 idx 가져오기
-            var boardIdx = $(".info-btn").val();
+            var boardIdx = $(this).closest("tr").find("td:first-child").text();
             console.log(boardIdx);
             $.ajax({
                 url: "boardinfo",
                 type: "GET",
                 data: {
-                  boardIdx: $(".info-btn").val()
+                    boardIdx
                 },
 
                 success:function (response) {
                     console.log("전송 성공");
+                    console.log(response);
+                    window.location.href = "/boardinfo?boardIdx=" + boardIdx;
                 },
 
                 error:function (xht,status,error) {
