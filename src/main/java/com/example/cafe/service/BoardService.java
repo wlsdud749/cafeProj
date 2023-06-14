@@ -18,7 +18,7 @@ public class BoardService {
     private final UserRepository userRepository;
     private final BoardRepository boardRepository;
 
-    public BoardDto resBoard(BoardDto dto,Long idx) {
+    public BoardDto resBoard(BoardDto dto, Long idx) {
 
 
         var user1 = userRepository.findByIdx(idx);
@@ -50,6 +50,10 @@ public class BoardService {
         return boardRepository.findById(idx).get();
     }
 
+    public Board delBoard(Long idx) {
+        boardRepository.deleteById(idx);
+        return null;
+    }
 
 
 }

@@ -4,43 +4,39 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <meta charset="UTF-8">
     <title>간단한 게시판</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<h2>게시글 목록</h2>
-<button id="writeBtn">글 작성하기</button>
-<table>
-    <thead>
-    <tr>
-        <th>No.</th>
-        <th>제목</th>
-        <th>내용</th>
-        <th>정보</th>
-        <th>삭제</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="board : ${boardList}">
-        <td th:text="${board.idx}"></td>
-        <td th:text="${board.title}"></td>
-
-
-        <!--        실헐중-->
-        <!--        <td>-->
-        <!--            <a th:href="@{/board/{id}(id=${board.idx})}" th:text="${board.title}"></a>-->
-        <!--        </td>-->
-        <td th:text="${board.content}"></td>
-        <td>
-            <a th:href="@{/boardinfo/(boardIdx=${board.idx})}">
-            <button class="info-btn">정보</button>
-            </a>
-        </td>
-        <td>
-            <button class="del-btn">삭제</button>
-        </td>
-    </tr>
-    </tbody>
-
-</table>
+<div class="container">
+    <h2 style="text-align: center">* 진영 월드 *</h2>
+    <button id="writeBtn" class="btn btn-primary">글 작성하기</button>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>제목</th>
+            <th>내용</th>
+            <th>정보</th>
+            <th>삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="board : ${boardList}">
+            <td th:text="${board.idx}"></td>
+            <td th:text="${board.title}"></td>
+            <td th:text="${board.content}"></td>
+            <td>
+                <a th:href="@{/boardinfo/(boardIdx=${board.idx})}">
+                    <button class="btn btn-info">정보</button>
+                </a>
+            </td>
+            <td>
+                <button class="btn btn-danger del-btn">삭제</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 
 <script>

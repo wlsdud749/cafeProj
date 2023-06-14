@@ -3,16 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <title>글 상세 정보</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-
-<h1>그냥 테스트</h1>
-<!--<h2><span th:text="|안녕하세요 ${session.userinfo.nick}님|"></span></h2>-->
-
-<h2 th:text="|제목: ${board.title}|"></h2>
-<p th:text="|내용: ${board.content}|"></p>
-
-
-
+<div class="container">
+  <h2><span th:text="|안녕하세요 ${session.userinfo.nick}님|"></span></h2>
+  <div class="card">
+    <div class="card-header">
+      <h2 th:text="|제목: ${board.title}|"></h2>
+    </div>
+    <div class="card-body">
+      <p th:text="|내용: ${board.content}|"></p>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

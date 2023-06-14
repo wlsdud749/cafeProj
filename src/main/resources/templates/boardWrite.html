@@ -3,19 +3,26 @@
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>게시글 작성하기</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<h1>게시글 작성하기</h1>
-<!--<h2><span th:text="|안녕하세요 ${session.userinfo.nick}님|"></span></h2>-->
-<form id="board">
-    <label for="title">제목:</label>
-    <input type="text" id="title" name="title"><br><br>
-    <label for="content">내용:</label><br>
-    <textarea id="content" name="content" rows="10" cols="50"></textarea><br><br>
-    <input type="submit" value="작성">
-</form>
-<hr>
+<div class="container">
+    <h1>게시글 작성하기</h1>
+    <!--<h2><span th:text="|안녕하세요 ${session.userinfo.nick}님|"></span></h2>-->
+    <form id="board" class="my-4">
+        <div class="form-group">
+            <label for="title">제목:</label>
+            <input type="text" id="title" name="title" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="content">내용:</label>
+            <textarea id="content" name="content" rows="10" cols="50" class="form-control"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">작성</button>
+    </form>
+    <hr>
+</div>
 </body>
 </html>
 <script>
