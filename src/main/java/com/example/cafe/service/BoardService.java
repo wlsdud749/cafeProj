@@ -1,9 +1,7 @@
 package com.example.cafe.service;
 
 import com.example.cafe.dto.BoardDto;
-import com.example.cafe.dto.UserDto;
 import com.example.cafe.entity.Board;
-import com.example.cafe.entity.User;
 import com.example.cafe.repository.BoardRepository;
 import com.example.cafe.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -33,8 +31,6 @@ public class BoardService {
         boardRepository.save(board);
         board_entityToDto(board);
 
-//        System.out.println("테스트"+board);
-
         return dto;
     }
 
@@ -50,15 +46,8 @@ public class BoardService {
         return boardbto;
     }
 
-    private Board board_dtoToEntity(BoardDto boardDto) {
-
-        var dto = Board.builder()
-                .idx(boardDto.getIdx())
-                .title(boardDto.getTitle())
-                .content(boardDto.getContent())
-                .build();
-
-        return dto;
+    public Board findBoard(Long idx) {
+        return boardRepository.findById(idx).get();
     }
 
 

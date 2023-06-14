@@ -11,4 +11,5 @@ public interface BoardRepository extends JpaRepository<Board,Long> {
     List<Board> findByUserIdx(Long userId);
 
 
+
 }

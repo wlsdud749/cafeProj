@@ -7,8 +7,10 @@
 <body>
 
 <h1>그냥 테스트</h1>
-<h2 제목 : th:text="${boardinfo.title}"></h2>
-<p  내용 : th:text="${boardinfo.content}"></p>
+<!--<h2><span th:text="|안녕하세요 ${session.userinfo.nick}님|"></span></h2>-->
+
+<h2 th:text="|제목: ${board.title}|"></h2>
+<p th:text="|내용: ${board.content}|"></p>
 
 
 

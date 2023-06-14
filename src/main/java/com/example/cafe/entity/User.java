@@ -40,6 +40,17 @@ public class User {
 
     }
 
+    public User toEntity() {
+        return User.builder()
+                .idx(idx)
+                .id(id)
+                .passwd(passwd)
+                .name(name)
+                .nick(nick)
+                .addr(addr)
+                .build();
+    }
+
 
 
 

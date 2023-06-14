@@ -1,6 +1,7 @@
 package com.example.cafe.entity;
 
 
+import com.example.cafe.dto.BoardDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,5 +31,16 @@ public class Board {
     private String title;
     private String content;
 //    private String author;
+
+    private Board board_dtoToEntity(BoardDto boardDto) {
+
+        var dto = Board.builder()
+                .idx(boardDto.getIdx())
+                .title(boardDto.getTitle())
+                .content(boardDto.getContent())
+                .build();
+
+        return dto;
+    }
 
 }

@@ -13,7 +13,7 @@
     <tr>
         <th>No.</th>
         <th>제목</th>
-        <th>내용
+        <th>내용</th>
         <th>정보</th>
         <th>삭제</th>
     </tr>
@@ -22,9 +22,17 @@
     <tr th:each="board : ${boardList}">
         <td th:text="${board.idx}"></td>
         <td th:text="${board.title}"></td>
+
+
+        <!--        실헐중-->
+        <!--        <td>-->
+        <!--            <a th:href="@{/board/{id}(id=${board.idx})}" th:text="${board.title}"></a>-->
+        <!--        </td>-->
         <td th:text="${board.content}"></td>
         <td>
+            <a th:href="@{/boardinfo/(boardIdx=${board.idx})}">
             <button class="info-btn">정보</button>
+            </a>
         </td>
         <td>
             <button class="del-btn">삭제</button>
@@ -38,14 +46,14 @@
 <script>
 
     // 글쓰기 페이지 이동
-    document.getElementById("writeBtn").addEventListener("click", function() {
+    document.getElementById("writeBtn").addEventListener("click", function () {
         window.location.href = "/boardWrite";
     });
 
     // 게시글의 idx 만 보내기 (상세정보보기)
-    $(document).ready(function() {
+    $(document).ready(function () {
         // 정보 버튼 클릭 시 이벤트 핸들러 등록
-        $(".info-btn").click(function() {
+        $(".info-btn").click(function () {
             // 모델에 저장된 boardinfo의 idx 가져오기
             var boardIdx = $(this).closest("tr").find("td:first-child").text();
             console.log(boardIdx);
@@ -56,21 +64,20 @@
                     boardIdx
                 },
 
-                success:function (response) {
+                success: function (response) {
                     console.log("전송 성공");
-                    console.log(response);
-                    window.location.href = "/boardinfo?boardIdx=" + boardIdx;
+                    // console.log(response);
+                    // window.location.href = "/boardinfo?boardIdx=" + boardIdx;
+                    window.location.href = "/boardinfo";
                 },
 
-                error:function (xht,status,error) {
+                error: function (xht, status, error) {
                     console.log("실패");
                 }
             })
 
         });
     });
-
-
 
 
 </script>

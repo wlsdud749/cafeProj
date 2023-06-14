@@ -31,6 +31,7 @@ public class BoardController {
 
     private final BoardService boardService;
     private final BoardRepository boardRepository;
+    private final UserService userService;
 
     // boardList 도 출력하는 코드도 같이 있음.
     @GetMapping("/board")
@@ -52,20 +53,21 @@ public class BoardController {
 
         // 작성된 게시물을 DB 에 저장
         var user = dto.getIdx();
-        boardService.resBoard(boardDto,user);
+        boardService.resBoard(boardDto, user);
         return "redirect:/board";
     }
 
 
-
     @GetMapping("/boardinfo")
-    public String boardinfo(@RequestParam("boardIdx") Long boardIdx , HttpServletRequest req, Model model) {
+    public String boardinfo(@RequestParam("boardIdx") Long boardIdx, HttpServletRequest req, Model model) {
         HttpSession session = req.getSession();
         UserDto dto = (UserDto) session.getAttribute("userinfo");
-        var board = boardRepository.findById(boardIdx);
-        model.addAttribute(String.valueOf(board),"boardinfo");
-        System.err.println("boardinfo 컨트롤러에서 테스트입니다 나오는지?"+board);
+        var boardinfo = boardService.findBoard(boardIdx);
+        model.addAttribute("board", boardinfo);
+        System.err.println("boardinfo 컨트롤러에서 테스트입니다 나오는지?" + boardinfo);
         // -> 나옵니다잉.
+        System.err.println("boardinfo 컨트롤러에서 테스트입니다 나오는지?" + dto);
+        // -> null 인 이유.
 
 
         return "boardinfo";

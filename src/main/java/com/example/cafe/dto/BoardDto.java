@@ -18,13 +18,21 @@ public class BoardDto {
     @Id
     private long idx;
 
-    // 내용
     private String title;
     private String content;
 
     private long user_idx;
-//    private String author;
 
-    public BoardDto(Board board) {
+    private BoardDto board_entityToDto(Board board) {
+
+        BoardDto boardbto = BoardDto.builder()
+                .idx(board.getIdx())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .user_idx(board.getUser().getIdx())
+                .build();
+
+        return boardbto;
     }
+
 }
