@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/cafe.css">
     <title>로그인 화면</title>
     <script>
@@ -18,14 +20,21 @@
     <h1 style="height: 100px;">카페 여석 확인 앱</h1>
 
     <form method="post" action="/signin">
-        <input type="input" name="id" placeholder="아이디를 입력하세요">
-        <input type="password" name="passwd" placeholder="비밀번호를 입력하세요">
+        <div class="form-group">
+            <input type="input" class="form-control" name="id" placeholder="아이디를 입력하세요">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" name="passwd" placeholder="비밀번호를 입력하세요">
+        </div>
         <!--html 과 dto 의 변수명 동일하게 설정-->
         <div class="btn-container">
-            <input type="submit" value="로그인">
-            <input type="button" value="회원가입" onclick="goToUserAddPage()">
+            <input type="submit" class="btn btn-primary" value="로그인">
+            <input type="button" class="btn btn-secondary" value="회원가입" onclick="goToUserAddPage()">
         </div>
     </form>
 </div>
+
+<!-- Include Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -2,6 +2,8 @@
 <html>
 <head>
   <title>검색 결과</title>
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <style>
   /* 검색 결과 테이블 스타일 */
@@ -39,42 +41,49 @@
 
 </style>
 <body>
-<h1 style="text-align: center">검색 결과</h1>
-<table>
-  <tr>
-    <th>이름</th>
-    <th>전화번호</th>
-    <th>주소</th>
-    <th>도로명주소</th>
-    <th>x</th>
-    <th>y</th>
-    <th>선택</th>
+<div class="container">
+  <h1 class="text-center mb-4">검색 결과</h1>
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">이름</th>
+      <th scope="col">전화번호</th>
+      <th scope="col">주소</th>
+      <th scope="col">도로명주소</th>
+      <th scope="col">x</th>
+      <th scope="col">y</th>
+      <th scope="col">선택</th>
+      <!-- Add any other necessary columns -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="result : ${searchResults}">
+      <td th:text="${result.name}"></td>
+      <td th:text="${result.number}"></td>
+      <td th:text="${result.addr}"></td>
+      <td th:text="${result.addr2}"></td>
+      <td th:text="${result.xValue}"></td>
+      <td th:text="${result.yValue}"></td>
+      <!-- Add other attributes of search results -->
+      <td>
+        <form action="/registercafe" method="post">
+          <input type="hidden" name="name" th:value="${result.name}">
+          <input type="hidden" name="number" th:value="${result.number}">
+          <input type="hidden" name="addr" th:value="${result.addr}">
+          <input type="hidden" name="addr2" th:value="${result.addr2}">
+          <input type="hidden" name="xValue" th:value="${result.xValue}">
+          <input type="hidden" name="yValue" th:value="${result.yValue}">
+          <!-- Add any other necessary input fields -->
 
-    <!-- 필요한 다른 컬럼들도 추가 -->
-  </tr>
-  <tr th:each="result : ${searchResults}">
-    <td th:text="${result.name}"></td>
-    <td th:text="${result.number}"></td>
-    <td th:text="${result.addr}"></td>
-    <td th:text="${result.addr2}"></td>
-    <td th:text="${result.xValue}"></td>
-    <td th:text="${result.yValue}"></td>
-    <!-- 검색 결과의 다른 속성들도 출력 -->
-    <td>
-      <form action="/registercafe" method="post">
-        <input type="hidden" name="name" th:value="${result.name}">
-        <input type="hidden" name="number" th:value="${result.number}">
-        <input type="hidden" name="addr" th:value="${result.addr}">
-        <input type="hidden" name="addr2" th:value="${result.addr2}">
-        <input type="hidden" name="xValue" th:value="${result.xValue}">
-        <input type="hidden" name="yValue" th:value="${result.yValue}">
-        <!-- 기타 필요한 input 필드들을 추가 -->
+          <input type="submit" class="btn btn-primary" value="추가">
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 
-        <input type="submit" method="post"  value="추가">
-      </form>
-    </td>
-  </tr>
-</table>
+<!-- Include Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-
 </html>

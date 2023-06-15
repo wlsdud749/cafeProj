@@ -2,6 +2,8 @@
 <html>
 <head>
   <title>카페 검색</title>
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
     /* 화면 중앙으로 오도록 스타일 적용 */
     .container {
@@ -34,25 +36,25 @@
 <body>
 <div class="container">
   <form method="post" action="/searchCafe">
-    <h1 style="height: 100px;">카페 검색</h1>
-    <div class="search">
-      <h2>원하시는 카페의 이름을 입력해주세요.</h2>
-      <h3>정확한 정보가 필요합니다 . ex) 스타벅스 대구</h3>
+    <h1 class="mb-5" style="text-align: center">카페 검색</h1>
+    <div class="search text-center">
+      <h2 class="mb-3">원하시는 카페의 이름을 입력해주세요.</h2>
+      <h3 class="mb-0">정확한 정보가 필요합니다. ex) 스타벅스 대구</h3>
     </div>
-      <div class="search">
-        <input type="text" id="searchInput" name="query" placeholder="카페 이름을 입력하세요">
-
-        <input type="submit" value="검색">
-<!--        <button onclick="goToHomePage()">HOME</button>-->
-      </div>
+    <div class="search mt-5">
+      <input type="text" id="searchInput" name="query" class="form-control" placeholder="카페 이름을 입력하세요">
+      <input type="submit" value="검색" class="btn btn-primary mt-3">
+    </div>
   </form>
 </div>
 
-</body>
-
+<!-- Include Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
   function goToHomePage() {
     window.location.href = "/home";
   }
 </script>
+</script>
+</body>
 </html>
