@@ -8,24 +8,28 @@
 </head>
 <body>
 <div class="container">
-    <h1>게시글 작성하기</h1>
+    <h1>게시글 수정하기</h1>
     <form id="board" class="my-4">
         <div class="form-group">
             <label for="title">제목:</label>
-            <input type="text" id="title" name="title" class="form-control">
+            <input type="text" id="title" name="title" class="form-control" th:value="${board.title}"/>
         </div>
         <div class="form-group">
             <label for="content">내용:</label>
-            <textarea id="content" name="content" rows="10" cols="50" class="form-control"></textarea>
+            <textarea id="content" name="content" rows="10" cols="50" class="form-control"
+                      th:utext="${board.content}"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">작성</button>
+        <button type="submit" class="btn btn-primary update-btn" th:attr="data-board-idx=${board.idx}">작성</button>
         <button id="cancelBtn" class="btn btn-danger del-btn">취소</button>
     </form>
     <hr>
 </div>
 </body>
 </html>
+
+
 <script>
+
 
     document.getElementById("cancelBtn").addEventListener("click", function () {
         window.location.href = "/board";
@@ -38,23 +42,28 @@
 
             // 입력된 데이터를 가져옴
             var title = $("#title").val();
-            var author = $("#author").val();
             var content = $("#content").val();
+            var boardIdx = $(".update-btn").attr("data-board-idx");
 
+
+            console.log(title, content, boardIdx);
+            // boardIdx 안나옴.
             // ajax 호출
             $.ajax({
-                url: "/writeBoard",
+                url: "/updateBoard",
                 type: "POST",
-                contentType: "application/json; charset=utf-8",
+                // contentType: "application/json; charset=utf-8",
                 // contentType 제발 명시해주기.
                 // JSON 은 위와 같은 CONTENT TYPE 명시.
-                data: JSON.stringify({title: title, author: author, content: content}),
+                data: ({
+                        title: title, content: content, boardIdx: boardIdx
+                    }
+                ),
                 // JSON 객체 형식으로 변경하기 위해 stringify 사용
 
                 success: function () {
                     // 성공 시 처리할 로직
-
-                    alert("글 작성이 완료되었습니다.");
+                    alert("글 수정이 완료되었습니다.");
                     window.location.href = "/board";
                 },
                 error: function (xhr, status, error) {

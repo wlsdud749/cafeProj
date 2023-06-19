@@ -30,7 +30,6 @@ public class Board {
 
     private String title;
     private String content;
-//    private String author;
 
     private Board board_dtoToEntity(BoardDto boardDto) {
 

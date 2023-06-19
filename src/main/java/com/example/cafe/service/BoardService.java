@@ -2,10 +2,8 @@ package com.example.cafe.service;
 
 import com.example.cafe.dto.BoardDto;
 import com.example.cafe.entity.Board;
-import com.example.cafe.entity.Cafe;
 import com.example.cafe.repository.BoardRepository;
 import com.example.cafe.repository.UserRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -39,14 +37,14 @@ public class BoardService {
 
     private BoardDto board_entityToDto(Board board) {
 
-        BoardDto boardbto = BoardDto.builder()
+        BoardDto boardDto = BoardDto.builder()
                 .idx(board.getIdx())
                 .title(board.getTitle())
                 .content(board.getContent())
                 .user_idx(board.getUser().getIdx())
                 .build();
 
-        return boardbto;
+        return boardDto;
     }
 
     public Board findBoard(Long idx) {
@@ -58,9 +56,21 @@ public class BoardService {
 
         Board target = boardRepository.findById(idx)
                 .orElseThrow(
-                        () -> new IllegalArgumentException("해당 Cafe 가 없습니다."+idx)
+                        () -> new IllegalArgumentException("해당 Board 가 없습니다."+idx)
                 );
         boardRepository.delete(target);
+    }
+
+    @Transactional
+    public Board updateBoard(Board board, String title, String content) {
+
+        board.setTitle(title);
+        board.setContent(content);
+
+        boardRepository.save(board);
+
+        return board;
+
     }
 
 

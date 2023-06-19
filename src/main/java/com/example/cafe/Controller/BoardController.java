@@ -14,15 +14,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -53,11 +51,15 @@ public class BoardController {
 
         // 작성된 게시물을 DB 에 저장
         var user = dto.getIdx();
+        if (user == null) {
+            return "redirect:/board";
+        }
         boardService.resBoard(boardDto, user);
         return "redirect:/board";
     }
 
 
+    // 게시글 정보
     @GetMapping("/boardinfo")
     public String boardinfo(@RequestParam("boardIdx") Long boardIdx, HttpServletRequest req, Model model) {
 
@@ -66,6 +68,7 @@ public class BoardController {
 
         var boardinfo = boardService.findBoard(boardIdx);
         model.addAttribute("board", boardinfo);
+//        System.err.println(boardinfo.getIdx());
 
 
         return "boardinfo";
@@ -77,6 +80,36 @@ public class BoardController {
     public String delBoard(@RequestParam("boardIdx") Long boardIdx) {
 
         boardService.delBoard(boardIdx);
+
+        return "redirect:/board";
+
+    }
+
+    // 게시글 수정
+    @GetMapping("boardEdit")
+    public String editBoard(@RequestParam("boardIdx") Long boardIdx, Model model) {
+
+        Board board = boardService.findBoard(boardIdx);
+        model.addAttribute("board", board);
+//        System.err.println(board);
+
+        return "boardEdit";
+
+    }
+
+    @PostMapping("updateBoard")
+    public String updateBoard(@RequestParam("boardIdx") Long boardIdx, @RequestParam("title") String title, @RequestParam("content") String content) {
+
+        System.err.println(boardIdx + " " + title + " " + content + " ");
+//        -> 넘어옴
+        Board board = boardRepository.findById(boardIdx).get();
+
+
+        boardService.updateBoard(board,title,content);
+
+        System.err.println("수정됐는지 확인" + board);
+//        -> 수정안됨
+
 
         return "redirect:/board";
 
