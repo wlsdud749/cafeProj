@@ -2,15 +2,18 @@ package com.example.cafe.service;
 
 import com.example.cafe.dto.BoardDto;
 import com.example.cafe.entity.Board;
+import com.example.cafe.entity.Cafe;
 import com.example.cafe.repository.BoardRepository;
 import com.example.cafe.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 
 
 public class BoardService {
@@ -50,9 +53,14 @@ public class BoardService {
         return boardRepository.findById(idx).get();
     }
 
-    public Board delBoard(Long idx) {
-        boardRepository.deleteById(idx);
-        return null;
+    @Transactional
+    public void delBoard(Long idx) {
+
+        Board target = boardRepository.findById(idx)
+                .orElseThrow(
+                        () -> new IllegalArgumentException("해당 Cafe 가 없습니다."+idx)
+                );
+        boardRepository.delete(target);
     }
 
 

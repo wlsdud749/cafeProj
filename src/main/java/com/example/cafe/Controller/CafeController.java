@@ -70,7 +70,7 @@ public class CafeController {
 
         var cafeResDto = cafeRepository.findById(infoCafe).get();
         model.addAttribute("infoCafe", cafeResDto);
-        System.out.println("cafeResDto 정보 *******" + cafeResDto);
+//        System.out.println("cafeResDto 정보 *******" + cafeResDto);
         return "reserve";
     }
 }

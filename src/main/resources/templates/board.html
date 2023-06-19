@@ -31,7 +31,9 @@
                 </a>
             </td>
             <td>
+                <a th:href="@{/delBoard/(boardIdx=${board.idx})}">
                 <button class="btn btn-danger del-btn">삭제</button>
+                </a>
             </td>
         </tr>
         </tbody>
@@ -74,6 +76,42 @@
 
         });
     });
+
+    $(document).ready(function() {
+        $(".del-btn").click(function () {
+            var boardIdx = $(this).closest("tr").find("td:first-child").text();
+            console.log(boardIdx);
+
+            var result = confirm("삭제하시겠습니까?");
+
+
+            if(result === true) {
+                $.ajax({
+                    url: "delBoard",
+                    type: "POST",
+                    data: {
+                        boardIdx
+                    },
+
+                    success: function () {
+                        console.log("전송되었고, 삭제")
+                        alert("삭제 되었습니다");
+                        location.reload();
+
+                    },
+
+                    error: function (xhr, status, error) {
+                        console.log("실패.");
+                    }
+                })
+            }
+            else
+                alert("삭제가 취소되었습니다.");
+
+            return false;
+
+        });
+    })
 
 
 </script>

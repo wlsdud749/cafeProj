@@ -1,15 +1,13 @@
 package com.example.cafe.repository;
 
 import com.example.cafe.entity.Board;
-import com.example.cafe.entity.Cafe;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 
-import java.util.List;
+import javax.persistence.LockModeType;
+import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<Board,Long> {
-
-    List<Board> findByUserIdx(Long userId);
-
 
 
 }

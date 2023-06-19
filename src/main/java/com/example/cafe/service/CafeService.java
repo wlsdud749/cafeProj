@@ -23,7 +23,6 @@ import java.util.Optional;
 @Service
 public class CafeService {
     private final CafeRepository cafeRepository;
-    private final UserService userService;
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
 

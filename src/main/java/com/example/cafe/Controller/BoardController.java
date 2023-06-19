@@ -66,12 +66,19 @@ public class BoardController {
 
         var boardinfo = boardService.findBoard(boardIdx);
         model.addAttribute("board", boardinfo);
-        //System.err.println("boardinfo 컨트롤러에서 테스트입니다 나오는지?" + boardinfo);
-        // -> 나옵니다잉.
-//        System.err.println("boardinfo 컨트롤러에서 테스트입니다 나오는지?" + dto);
-        // -> null 인 이유. -> 세션이 만료되어서 ㅋㅋ
 
 
         return "boardinfo";
+    }
+
+    // 게시글 삭제
+    @Transactional
+    @PostMapping("/delBoard")
+    public String delBoard(@RequestParam("boardIdx") Long boardIdx) {
+
+        boardService.delBoard(boardIdx);
+
+        return "redirect:/board";
+
     }
 }
