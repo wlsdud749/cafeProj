@@ -29,7 +29,6 @@ public class BoardController {
 
     private final BoardService boardService;
     private final BoardRepository boardRepository;
-    private final UserService userService;
 
     // boardList 도 출력하는 코드도 같이 있음.
     @GetMapping("/board")
@@ -102,13 +101,12 @@ public class BoardController {
 
         System.err.println(boardIdx + " " + title + " " + content + " ");
 //        -> 넘어옴
-        Board board = boardRepository.findById(boardIdx).get();
+//        Board board = boardRepository.findById(boardIdx).get();
 
 
-        boardService.updateBoard(board,title,content);
+        Board board = boardService.updateBoard(boardIdx,title,content);
 
-        System.err.println("수정됐는지 확인" + board);
-//        -> 수정안됨
+//        System.err.println("수정됐는지 확인" + board);
 
 
         return "redirect:/board";

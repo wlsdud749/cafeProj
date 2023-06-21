@@ -5,6 +5,8 @@
     <title>글 상세 정보</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </head>
 <body>
@@ -18,23 +20,32 @@
             <p th:text="|내용: ${board.content}|"></p>
         </div>
         <div>
-          <a th:href="@{/boardEdit/(boardIdx=${board.idx})}">
-            <button class="btn btn-primary updateBtn" th:attr="data-boardIdx=${board.idx}">수정</button>
-          </a>
+            <a th:href="@{/boardEdit/(boardIdx=${board.idx})}">
+                <button class="btn btn-primary updateBtn" th:attr="data-boardIdx=${board.idx}">수정</button>
+            </a>
         </div>
+            <div>
+                <button class="btn btn-primary" id="listBtn">목록</button>
+            </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
 </body>
 </html>
+
+
 <script>
+    document.getElementById("listBtn").addEventListener("click", function () {
+        window.location.href = "/board";
+    });
+
     $(document).ready(function () {
         $(".updateBtn").click(function () {
 
-           // 모델에 담겨있는 정보를 이용해보자.
+// 모델에 담겨있는 정보를 이용해보자.
             var boardIdx = $(this).attr('data-boardIdx');
-            console.log("눌렀고 값은:"+boardIdx);
+            console.log("눌렀고 값은:" + boardIdx);
             $.ajax({
                 url: "boardEdit",
                 type: "GET",

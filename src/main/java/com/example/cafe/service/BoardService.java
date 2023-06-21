@@ -62,12 +62,12 @@ public class BoardService {
     }
 
     @Transactional
-    public Board updateBoard(Board board, String title, String content) {
+    public Board updateBoard(Long idx, String title, String content) {
 
+
+        Board board = boardRepository.findById(idx).get();
         board.setTitle(title);
         board.setContent(content);
-
-        boardRepository.save(board);
 
         return board;
 
